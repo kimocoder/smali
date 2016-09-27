@@ -49,6 +49,8 @@ if (!('release' in gradle.startParameter.taskNames)) {
         versionSuffix = 'dev'
     }
 
+    versionSuffix = 'dexpatcher'
+
     version += "-${versionSuffix}"
 } else {
     if (System.env.JDK6_HOME == null && !JavaVersion.current().isJava6()) {
@@ -93,6 +95,8 @@ subprojects {
             }
         }
     }
+
+    sourceCompatibility = 1.6
 
     version = parent.version
 
