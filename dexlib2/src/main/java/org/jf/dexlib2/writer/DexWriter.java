@@ -269,6 +269,7 @@ public abstract class DexWriter<
 
     public void writeTo(@Nonnull DexDataStore dest,
                         @Nonnull DeferredOutputStreamFactory tempFactory) throws IOException {
+        if (isPoolOverflowed()) throw new DexPoolOverflowException(getPoolUsage());
         try {
             int dataSectionOffset = getDataSectionOffset();
             DexDataWriter headerWriter = outputAt(dest, 0);
