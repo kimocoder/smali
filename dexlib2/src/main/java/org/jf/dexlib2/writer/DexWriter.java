@@ -96,6 +96,8 @@ public abstract class DexWriter<
     public static final int NO_INDEX = -1;
     public static final int NO_OFFSET = 0;
 
+    public static final int MAX_POOL_USAGE = 65536;
+
     protected final Opcodes opcodes;
 
     protected int stringIndexSectionOffset = NO_OFFSET;
@@ -225,6 +227,40 @@ public abstract class DexWriter<
             classReferences.add(typeReference.getKey().toString());
         }
         return classReferences;
+    }
+
+    public int getMethodReferenceCount() {
+        return methodSection.getItems().size();
+    }
+
+    public int getFieldReferenceCount() {
+        return fieldSection.getItems().size();
+    }
+
+    public int getTypeReferenceCount() {
+        return typeSection.getItems().size();
+    }
+
+    // Rationale: https://github.com/JesusFreke/smali/issues/438#issuecomment-249975236
+    // But this is kept private to avoid cluttering the public interface.
+    private int getMethodProtoReferenceCount() {
+        return protoSection.getItems().size();
+    }
+
+    public int getPoolUsage() {
+        int m = getMethodReferenceCount();
+        int f = getFieldReferenceCount();
+        int t = getTypeReferenceCount();
+        int p = getMethodProtoReferenceCount();
+        int v = m;
+        if (v < f) v = f;
+        if (v < t) v = t;
+        if (v < p) v = p;
+        return v;
+    }
+
+    public boolean isPoolOverflowed() {
+        return getPoolUsage() > MAX_POOL_USAGE;
     }
 
     public void writeTo(@Nonnull DexDataStore dest) throws IOException {
