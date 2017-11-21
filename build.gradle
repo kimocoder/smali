@@ -31,7 +31,7 @@
 
 apply plugin: 'idea'
 
-version = '2.2.2'
+version = '2.2.2-barrier'
 def jcommanderVersion = ''
 
 if (!('release' in gradle.startParameter.taskNames)) {
@@ -54,7 +54,7 @@ if (!('release' in gradle.startParameter.taskNames)) {
         versionSuffix = 'dev'
     }
 
-    version += "-${versionSuffix}"
+    //version += "-${versionSuffix}"
 } else {
     jcommanderVersion = 'com.beust:jcommander:1.64'
 
@@ -87,6 +87,9 @@ subprojects {
             }
         }
     }
+
+    sourceCompatibility = 1.6
+    targetCompatibility = 1.6
 
     if (System.env.JDK6_HOME != null) {
         sourceCompatibility = 1.6
