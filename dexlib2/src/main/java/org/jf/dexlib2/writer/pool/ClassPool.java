@@ -79,13 +79,13 @@ public class ClassPool extends BasePool<String, PoolClassDef> implements ClassSe
         dexPool.typeListSection.intern(poolClassDef.getInterfaces());
         dexPool.stringSection.internNullable(poolClassDef.getSourceFile());
 
-        HashSet<String> fields = new HashSet<String>();
+        //HashSet<String> fields = new HashSet<String>();
         for (Field field: poolClassDef.getFields()) {
-            String fieldDescriptor = ReferenceUtil.getShortFieldDescriptor(field);
-            if (!fields.add(fieldDescriptor)) {
-                throw new ExceptionWithContext("Multiple definitions for field %s->%s",
-                        poolClassDef.getType(), fieldDescriptor);
-            }
+            //String fieldDescriptor = ReferenceUtil.getShortFieldDescriptor(field);
+            //if (!fields.add(fieldDescriptor)) {
+            //    throw new ExceptionWithContext("Multiple definitions for field %s->%s",
+            //            poolClassDef.getType(), fieldDescriptor);
+            //}
             dexPool.fieldSection.intern(field);
 
             EncodedValue initialValue = field.getInitialValue();
@@ -96,13 +96,13 @@ public class ClassPool extends BasePool<String, PoolClassDef> implements ClassSe
             dexPool.annotationSetSection.intern(field.getAnnotations());
         }
 
-        HashSet<String> methods = new HashSet<String>();
+        //HashSet<String> methods = new HashSet<String>();
         for (PoolMethod method: poolClassDef.getMethods()) {
-            String methodDescriptor = ReferenceUtil.getMethodDescriptor(method, true);
-            if (!methods.add(methodDescriptor)) {
-                throw new ExceptionWithContext("Multiple definitions for method %s->%s",
-                        poolClassDef.getType(), methodDescriptor);
-            }
+            //String methodDescriptor = ReferenceUtil.getMethodDescriptor(method, true);
+            //if (!methods.add(methodDescriptor)) {
+            //    throw new ExceptionWithContext("Multiple definitions for method %s->%s",
+            //            poolClassDef.getType(), methodDescriptor);
+            //}
             dexPool.methodSection.intern(method);
             internCode(method);
             internDebug(method);
