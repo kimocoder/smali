@@ -81,7 +81,10 @@ task generateAccessorTestDex(type: JavaExec, dependsOn: compileAccessorTestJava)
     def outputDex = file('src/test/resources/accessorTest.dex')
     file(outputDex.parent).mkdirs()
 
-    inputs.dir(project.sourceSets.accessorTest.output.classesDir)
+    def classesDirs = project.sourceSets.accessorTest.output.classesDirs
+    classesDirs.each {
+        inputs.dir(it)
+    }
     outputs.file outputDex
 
     main 'com.android.dx.command.Main'
@@ -90,7 +93,7 @@ task generateAccessorTestDex(type: JavaExec, dependsOn: compileAccessorTestJava)
     args '--dex'
     args '--no-strict'
     args "--output=${outputDex}"
-    args sourceSets.accessorTest.output.classesDir
+    args classesDirs.join(" ")
 }
 
 uploadArchives {
