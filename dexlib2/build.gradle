@@ -81,7 +81,9 @@ task generateAccessorTestDex(type: JavaExec, dependsOn: compileAccessorTestJava)
     def outputDex = file('src/test/resources/accessorTest.dex')
     file(outputDex.parent).mkdirs()
 
+
     inputs.dir(project.sourceSets.accessorTest.output.classesDirs)
+
     outputs.file outputDex
 
     main 'com.android.dx.command.Main'
